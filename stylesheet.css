@@ -1,6 +1,5 @@
 body {
     background-color: #dbdbdb;
-    color: #FFFFFF;
 }
 
 button {
@@ -12,5 +11,19 @@ button {
     outline: none;
 }
 
-#play-button {
+.player-holder {
+    text-align: center;
+    position: relative;
+    width: 420px;
 }
+
+.player-controls {
+    height: 40px;
+    width: 100%;
+    background: #2d2d2d;
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.6));
+
+    text-align: right;
+    position: absolute;
+}
+
