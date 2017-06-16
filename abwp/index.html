@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8' />
+        <title>A Better Web Player</title>
+        <link href='stylesheet.css' rel='stylesheet' />
+        <script src='web-player.js'></script>
+    </head>
+    <body>
+        <div id='web-player's>
+            <video id='player-video' width=600 preload controls>
+                <source src='test.mp4' type='video/mp4' autoplay>
+            </video>
+
+            <div id='player-controls'>
+                <button id='play-pause-button' class='play' title='play' 
+                    onclick='togglePlayPause();'>
+                    Play</button>
+                <button id='volume-button' class='volume' title='volume' 
+                    onmouseover='displayVolumeBar();'
+                    onclick='toggleMute();'>
+                    Volume</button>
+                <button id="fullscreen-button" title="fullscreen"
+                    onlick='toggleFullscreen();'>
+                    Fullscreen</button>
+                <div id="progress">
+                    <div id="progress_bar">
+                        <span id="play_progress"></span>
+                    </div>
+                </div>
+            </div>
+
+    </body>
+</html>
