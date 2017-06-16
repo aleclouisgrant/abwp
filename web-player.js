@@ -1,39 +1,32 @@
-document.addEventListener("DOMContentLoaded", function() {initializeMediaPlayer(); }, false);
+document.addEventListener("DOMContentLoaded", initializeWebPlayer(), false);
 
-var mediaPlayer = document.getElementById('');
-var playButton = document.getElementById('play-pause-button');
-var volButton = document.getElementById('volume-button');
+var webPlayer;
+var playButton;
+var volButton;
+var vol = 1;
 
-function initializeMediaPlayer() {
-    mediaPlayer = document.getElementById('player-video');
-    mediaPlayer.controls = false;
+function initializeWebPlayer() {
+    webPlayer = document.getElementById("player-video"); 
+    playButton = document.getElementById("play-button");
+    volButton = document.getElementById("vol-button");
+
+    webPlayer.controls = false;
 }
-function togglePlayPause() {
-    if (mediaPlayer.paused || mediaPlayer.ended){
-        playButton.title = 'pause';
-        playButton.innerHTML = 'pause';
-        playButton.className = 'pause';
-        mediaPlayer.play();
+
+function togglePlayPause() { 
+    if (webPlayer.paused) 
+        webPlayer.play(); 
+    else 
+        webPlayer.pause(); 
+} 
+
+function toggleMute() {
+    if (webPlayer.muted){
+        webPlayer.muted = false;
+        webPlayer.volume = vol;
     }
     else {
-        playButton.title = 'play';
-        playButton.innerHTML = 'play';
-        playButton.className = 'play';
-        mediaPlayer.pause();
+        webPlayer.muted = true;
+        webPlayer.volume = 0;
     }
 }
-function changeButtonType(btn, value) {
-    btn.title= = value;
-    btn.innerHTML = value;
-    btn.className = value;
-}
-
-//Volume functions
-function displayVolumeBar() {
-}
-function toggleMute() {
-    if () {
-        mediaPlayer.volume = ;
-
-}
-
