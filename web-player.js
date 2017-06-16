@@ -9,10 +9,11 @@ var playButtonImg;
 var volButtonImg;
 var fullscreenButtonImg;
 
+var isFullScreened = false;
 var vol = 1;
 
 function initializeWebPlayer() {
-    webPlayer = document.getElementById("player-video"); 
+    webPlayer = document.getElementById("player-video");
     playButton = document.getElementById("play-button");
     volButton = document.getElementById("vol-button");
     fullscreenButton = document.getElementById("fullscreen-button");
@@ -53,5 +54,4 @@ function toggleMute() {
 }
 
 function toggleFullscreen() {
-    
 }
