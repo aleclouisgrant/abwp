@@ -13,6 +13,10 @@
         <source src="test.mp4" type="video/mp4" autoplay>
         Your browser does not support HTML5 video.
     </video>
+    <audio id="player-audio">
+        <source src="test.mp3" type="audio/mpeg">
+    </audio>
+
     <br>
 
     <div class="player-controls">
@@ -28,7 +32,7 @@
         </button>
         <input type="range" id="volume-slider" value="100">
         <button id="audio-source-button" title="Audio Source"
-            onclick="displayAudioSources()">
+            onclick="toggleAudio()">
             <img id="audio-src-img" src="Graphics/audiosrc.png" width=20 />
         </button>
         <button id="fullscreen-button" title="Fullscreen"
