@@ -9,6 +9,8 @@ var playButtonImg;
 var volButtonImg;
 var fullscreenButtonImg;
 
+var volSlider;
+
 var isFullScreened = false;
 var vol = 1;
 
@@ -54,4 +56,13 @@ function toggleMute() {
 }
 
 function toggleFullscreen() {
+    if (webPlayer.requestFullscreen) {
+      webPlayer.enterFullscreen();
+    } else if (webPlayer.msRequestFullscreen) {
+      webPlayer.msRequestFullscreen();
+    } else if (webPlayer.mozRequestFullScreen) {
+      webPlayer.mozRequestFullScreen();
+    } else if (webPlayer.webkitRequestFullscreen) {
+        webPlayer.webkitRequestFullscreen();
+    }
 }

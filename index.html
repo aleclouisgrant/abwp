@@ -21,9 +21,12 @@
             <img id="play-button-img" src="Graphics/play.png" width=20 />
         </button> 
         <button id="vol-button" title="Mute"
-            onclick="toggleMute()">
+            onclick="toggleMute()"
+            onmouseover="volSliderIn()"
+            onmouseout="volSliderOut()">
             <img id="vol-button-img" src="Graphics/vol.png" width=20 />
-        </button> 
+        </button>
+        <input type="range" id="volume-slider" value="100">
         <button id="audio-source-button" title="Audio Source"
             onclick="displayAudioSources()">
             <img id="audio-src-img" src="Graphics/audiosrc.png" width=20 />

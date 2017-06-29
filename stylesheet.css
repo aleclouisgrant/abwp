@@ -25,5 +25,10 @@ button {
 
     text-align: right;
     position: absolute;
+
+    z-index: 2147483647;
 }
 
+video::-webkit-media-controls {
+    display:none !important;
+}
