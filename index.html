@@ -7,7 +7,9 @@
 </head>
 
 <body>
-<div class="player-holder">
+<div class="player-holder" 
+    onmouseover="videoHoverIn()"
+    onmouseout="videoHoverOut()">
 
     <video id="player-video" width="420" preload controls>
         <source src="test.mp4" type="video/mp4" autoplay>

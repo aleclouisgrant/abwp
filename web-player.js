@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", initializeWebPlayer(), false);
 
+// if you want to test if a function is being called, you can 
+// put this line somewhere in the function: 
+//new Audio("ding.mp3").play();
+
 var webPlayer;
 var audioPlayer;
 
@@ -30,7 +34,24 @@ function initializeWebPlayer() {
     volButtonImg = document.getElementById("vol-button-img");
     fullscreenButtonImg = document.getElementById("fullscreen-button-img");
 
+    volSlider = document.getElementById("volume-slider");
+
     webPlayer.controls = false;
+    volSlider.style.visibility = 'hidden';
+}
+
+function videoHoverIn() {
+    var playerControls = document.getElementsByClassName("player-controls");
+    for (var i = 0; i < playerControls.length; i++) {
+        playerControls[i].style.display = 'block';
+    }
+}
+
+function videoHoverOut() {
+    var playerControls = document.getElementsByClassName("player-controls");
+    for (var i = 0; i < playerControls.length; i++) {
+        playerControls[i].style.display = 'none';
+    }
 }
 
 function togglePlayPause() { 
@@ -71,6 +92,14 @@ function toggleMute() {
         //pause audio
         audioPlayer.pause();
     }
+}
+
+function volSliderIn() { //TODO: pls fix jar
+    volSlider.style.visbility = 'visible';
+    new Audio("ding.mp3").play();
+}
+function volSliderOut() {
+    volSlider.style.visibility = 'hidden';
 }
 
 function toggleAudio() {
