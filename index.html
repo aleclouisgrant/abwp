@@ -32,7 +32,9 @@
             onmouseout="volSliderOut()">
             <img id="vol-button-img" src="Graphics/vol.png" width=20 />
         </button>
-        <input type="range" id="volume-slider" value="100">
+        <input type="range" id="volume-slider" min="0" max="100" step="1" 
+            value="100"
+            oninput="changeVol()">
         <button id="audio-source-button" title="Audio Source"
             onclick="toggleAudio()">
             <img id="audio-src-img" src="Graphics/audiosrc.png" width=20 />

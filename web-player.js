@@ -37,7 +37,7 @@ function initializeWebPlayer() {
     volSlider = document.getElementById("volume-slider");
 
     webPlayer.controls = false;
-    volSlider.style.visibility = 'hidden';
+    //volSlider.style.visibility = 'hidden';
 }
 
 function videoHoverIn() {
@@ -46,7 +46,6 @@ function videoHoverIn() {
         playerControls[i].style.display = 'block';
     }
 }
-
 function videoHoverOut() {
     var playerControls = document.getElementsByClassName("player-controls");
     for (var i = 0; i < playerControls.length; i++) {
@@ -66,7 +65,7 @@ function togglePlayPause() {
         webPlayer.pause(); 
         playButtonImg.src = "Graphics/play.png";
         playButton.title = "Play";
-        
+
         audioPlayer.pause();
     }
 } 
@@ -77,7 +76,7 @@ function toggleMute() {
         webPlayer.muted = false;
         webPlayer.volume = vol;
         volButton.title = "Mute";
-        volButtonImg.src = "Graphics/vol.png"
+        volButtonImg.src = "Graphics/vol.png";
 
         //syncs audio
         audioPlayer.currentTime = webPlayer.currentTime;
@@ -87,7 +86,7 @@ function toggleMute() {
         webPlayer.muted = true;
         webPlayer.volume = 0;
         volButton.title = "Unmute";
-        volButtonImg.src = "Graphics/muted.png"
+        volButtonImg.src = "Graphics/muted.png";
 
         //pause audio
         audioPlayer.pause();
@@ -95,11 +94,15 @@ function toggleMute() {
 }
 
 function volSliderIn() { //TODO: pls fix jar
-    volSlider.style.visbility = 'visible';
-    new Audio("ding.mp3").play();
+    //volSlider.style.visbility = 'visible';
 }
 function volSliderOut() {
-    volSlider.style.visibility = 'hidden';
+    //volSlider.style.visibility = 'hidden';
+}
+
+function changeVol() {
+    //vol = volSlider.value;
+    webPlayer.volume = vol;
 }
 
 function toggleAudio() {
@@ -113,13 +116,34 @@ function toggleAudio() {
 }
 
 function toggleFullscreen() {
-    if (webPlayer.requestFullscreen) {
-      webPlayer.enterFullscreen();
-    } else if (webPlayer.msRequestFullscreen) {
-      webPlayer.msRequestFullscreen();
-    } else if (webPlayer.mozRequestFullScreen) {
-      webPlayer.mozRequestFullScreen();
-    } else if (webPlayer.webkitRequestFullscreen) {
-        webPlayer.webkitRequestFullscreen();
+
+    if (isFullScreened) { //minimize
+        webPlayer.webkitExitFullScreen();
+        fullscreenButton.title = "Fullscreen";
+        fullscreenButtonImg.src = "Graphics/fs.png";
+        isFullScreened = false;
+    }
+    else { //fullscreen
+        if (webPlayer.requestFullscreen) {
+            webPlayer.enterFullscreen();
+            fullscreenButton.title = "Minimize"
+            fullscreenButtonImg.src = "Graphics/min.png";
+            isFullScreened = true;
+        } else if (webPlayer.msRequestFullscreen) {
+            webPlayer.msRequestFullscreen();
+            fullscreenButton.title = "Minimize"
+            fullscreenButtonImg.src = "Graphics/min.png";
+            isFullScreened = true;
+        } else if (webPlayer.mozRequestFullScreen) {
+            webPlayer.mozRequestFullScreen();
+            fullscreenButton.title = "Minimize"
+            fullscreenButtonImg.src = "Graphics/min.png";
+            isFullScreened = true;
+        } else if (webPlayer.webkitRequestFullscreen) {
+            webPlayer.webkitRequestFullscreen();
+            fullscreenButton.title = "Minimize"
+            //fullscreenButtonImg.src = "Graphics/min.png";
+            isFullScreened = true;
+        }
     }
 }
