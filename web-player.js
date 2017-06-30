@@ -20,6 +20,8 @@ var volSlider;
 var audioSlider;
 
 var isFullScreened = false;
+var isAudioMuted = false;
+
 var vol = 1;
 var audioVol = 1;
 
@@ -40,7 +42,6 @@ function initializeWebPlayer() {
     audioSlider = document.getElementById("audio-slider");
 
     webPlayer.controls = false;
-    //volSlider.style.visibility = 'hidden';
 }
 
 function videoHoverIn() {
@@ -62,7 +63,8 @@ function togglePlayPause() {
         playButtonImg.src = "Graphics/pause.png";
         playButton.title = "Pause";
 
-        audioPlayer.play();
+        if(!isAudioMuted)
+            audioPlayer.play();
     }
     else { //pause 
         webPlayer.pause(); 
@@ -82,8 +84,10 @@ function toggleMute() {
         volButtonImg.src = "Graphics/vol.png";
 
         //syncs audio
-        audioPlayer.currentTime = webPlayer.currentTime;
-        audioPlayer.play();
+        if (!webPlayer.paused){
+            audioPlayer.currentTime = webPlayer.currentTime;
+            audioPlayer.play();
+        }
     }
     else { //mute
         webPlayer.muted = true;
@@ -92,7 +96,7 @@ function toggleMute() {
         volButtonImg.src = "Graphics/muted.png";
 
         //pause audio
-        audioPlayer.pause();
+        audioPlayer.paused = true;
     }
 }
 
@@ -104,25 +108,31 @@ function volSliderOut() {
 }
 
 function changeVol() {
+    webPlayer.muted = false;
     vol = volSlider.value / 100;
     webPlayer.volume = vol;
     if (vol == 0)
         volButtonImg.src = "Graphics/muted.png";  
     else
-        volButtonImg.src = "Graphics/vol.png";  
+        volButtonImg.src = "Graphics/vol.png"; 
 }
 function changeAudVol() {
+    audioPlayer.paused = false;
     audioVol = audioSlider.value / 100;
     audioPlayer.volume = audioVol;
 }
 
 function toggleAudio() {
-    if (audioPlayer.paused) { //unmute
+    if (isAudioMuted && !webPlayer.paused) { //unmute
         audioPlayer.currentTime = webPlayer.currentTime;
+        audioPlayer.muted = false;
         audioPlayer.play();
+        isAudioMuted = false;
     } 
     else { //mute
-        audioPlayer.pause();
+        audioPlayer.paused = true;
+        audioPlayer.muted = true;
+        isAudioMuted = true;
     }
 }
 
@@ -158,3 +168,4 @@ function toggleFullscreen() {
         }
     }
 }
+
