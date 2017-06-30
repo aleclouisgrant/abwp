@@ -14,13 +14,14 @@ button {
 .player-holder {
     text-align: center;
     position: relative;
-    width: 420px;
+    width: 60%;
 }
 
 .player-controls {
-    top: 207px;
-    height: 30px;
+    bottom: 1%;
+    height: 35px;
     width: 100%;
+
     background: #2d2d2d;
     background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8));
 
@@ -31,7 +32,7 @@ button {
 }
 
 #volume-slider {
-    margin-right: 135px;
+    margin-top: 5px;
 }
 
 video::-webkit-media-controls {

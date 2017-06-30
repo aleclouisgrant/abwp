@@ -11,7 +11,7 @@
     onmouseover="videoHoverIn()"
     onmouseout="videoHoverOut()">
 
-    <video id="player-video" width="420" preload controls>
+    <video id="player-video" width="100%" preload controls>
         <source src="test.mp4" type="video/mp4" autoplay>
         Your browser does not support HTML5 video.
     </video>
@@ -39,6 +39,9 @@
             onclick="toggleAudio()">
             <img id="audio-src-img" src="Graphics/audiosrc.png" width=20 />
         </button>
+        <input type="range" id="audio-slider" min="0" max="100" step="1" 
+            value="100"
+            oninput="changeAudVol()">
         <button id="fullscreen-button" title="Fullscreen"
             onclick="toggleFullscreen()">
             <img id="fullscreen-button-img" src="Graphics/fs.png" width=20 />

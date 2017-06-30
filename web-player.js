@@ -17,9 +17,11 @@ var volButtonImg;
 var fullscreenButtonImg;
 
 var volSlider;
+var audioSlider;
 
 var isFullScreened = false;
 var vol = 1;
+var audioVol = 1;
 
 function initializeWebPlayer() {
     webPlayer = document.getElementById("player-video");
@@ -35,6 +37,7 @@ function initializeWebPlayer() {
     fullscreenButtonImg = document.getElementById("fullscreen-button-img");
 
     volSlider = document.getElementById("volume-slider");
+    audioSlider = document.getElementById("audio-slider");
 
     webPlayer.controls = false;
     //volSlider.style.visibility = 'hidden';
@@ -101,8 +104,16 @@ function volSliderOut() {
 }
 
 function changeVol() {
-    //vol = volSlider.value;
+    vol = volSlider.value / 100;
     webPlayer.volume = vol;
+    if (vol == 0)
+        volButtonImg.src = "Graphics/muted.png";  
+    else
+        volButtonImg.src = "Graphics/vol.png";  
+}
+function changeAudVol() {
+    audioVol = audioSlider.value / 100;
+    audioPlayer.volume = audioVol;
 }
 
 function toggleAudio() {
