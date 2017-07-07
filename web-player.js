@@ -23,6 +23,7 @@ var isFullScreened = false;
 var isAudioMuted = false;
 
 var vol = 1;
+var vidVol = 1;
 var audioVol = 1;
 
 function initializeWebPlayer() {
@@ -112,10 +113,11 @@ function changeVol() {
     vol = volSlider.value / 100;
     webPlayer.volume = vol;
     if (vol == 0)
-        volButtonImg.src = "Graphics/muted.png";  
+        volButtonImg.src = "Graphics/muted.png";
     else
         volButtonImg.src = "Graphics/vol.png"; 
 }
+
 function changeAudVol() {
     audioPlayer.paused = false;
     audioVol = audioSlider.value / 100;
@@ -133,6 +135,20 @@ function toggleAudio() {
         audioPlayer.paused = true;
         audioPlayer.muted = true;
         isAudioMuted = true;
+    }
+}
+
+function displayAudioSources() {
+    var audioSources = document.getElementsByClassName("dropdown-content");
+    if(audioSources[0].style.display == "none"){ //show
+        for (var i = 0; i < audioSources.length; i++){
+            audioSources[i].style.display = "block";
+        }
+    }
+    else { //hide
+        for (var i = 0; i < audioSources.length; i++){
+            audioSources[i].style.display = "none";
+        }
     }
 }
 

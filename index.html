@@ -35,10 +35,39 @@
         <input type="range" id="volume-slider" min="0" max="100" step="1" 
             value="100"
             oninput="changeVol()">
-        <button id="audio-source-button" title="Audio Source"
-            onclick="toggleAudio()">
+        <button class="dropdown" id="audio-source-button" title="Audio Source"
+            onclick="displayAudioSources()">
             <img id="audio-src-img" src="Graphics/audiosrc.png" width=20 />
         </button>
+        <div class="dropdown-content">
+            <div>
+            <button id="audio-source-bgm" title="BGM Audio"
+                onclick="toggleAudio()">
+                <img src="Graphics/bgm.png" width=20 />
+            </button>
+            <input type="range" id="audio-slider" min="0" max="100" step="1" 
+                value="100"
+                oninput="changeAudVol()">
+            </div>
+            <div>
+            <button id="audio-source-mus" title="Music"
+                onclick="toggleAudio()">
+                <img src="Graphics/mus.png" width=20 />
+            </button>
+            <input type="range" id="audio-slider" min="0" max="100" step="1" 
+                value="100"
+                oninput="changeAudVol()">
+            </div>
+            <div>
+            <button id="audio-source-com" title="Commentary"
+                onclick="toggleAudio()">
+                <img src="Graphics/mic.png" width=20 />
+            </button>
+            <input type="range" id="audio-slider" min="0" max="100" step="1" 
+                value="100"
+                oninput="changeAudVol()">
+            </div>
+        </div>
         <input type="range" id="audio-slider" min="0" max="100" step="1" 
             value="100"
             oninput="changeAudVol()">
