@@ -53,8 +53,8 @@ input[type=range]::-webkit-slider-runnable-track {
     height: 4px;
     margin-top: -20px;
     cursor: pointer;
-    background: #000000;
-    background: rgba(0,0,0,0.5);
+    background: #9ae587;
+    background: rgba(154,229,135,0.5);
     border-color: transparent;
     color: transparent;
 }

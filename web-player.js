@@ -1,34 +1,49 @@
 document.addEventListener("DOMContentLoaded", initializeWebPlayer(), false);
 
-// if you want to test if a function is being called, you can 
-// put this line somewhere in the function: 
+// if you want to test if a function is being called, you can
+// put this line somewhere in the function:
 //new Audio("ding.mp3").play();
 
-var webPlayer;
-var audioPlayer;
+var videoPlayer;
+var audioGamePlayer;
+var audioMusPlayer;
+var audioComPlayer;
 
 var playButton;
 var volButton;
-var audioSourceButton;
+var audioButton;
+var gameButton;
+var musButton;
+var comButton;
 var fullscreenButton;
 
 var playButtonImg;
 var volButtonImg;
+var audioButtonImg;
 var fullscreenButtonImg;
 
 var volSlider;
 var audioSlider;
+var gameSlider;
+var musSlider;
+var comSlider;
 
-var isFullScreened = false;
-var isAudioMuted = false;
+var isFullScreened;
+var isAudioMuted;
 
-var vol = 1;
-var vidVol = 1;
-var audioVol = 1;
+var vol;
+var audioVol;
+var gameVol;
+var musVol;
+var comVol;
+
+var audioPlayers;
 
 function initializeWebPlayer() {
-    webPlayer = document.getElementById("player-video");
-    audioPlayer = document.getElementById("player-audio");
+    videoPlayer = document.getElementById("player-video");
+    audioPlayerGame = document.getElementById("player-audio-game");
+    audioPlayerMus = document.getElementById("player-audio-mus");
+    audioPlayerCom = document.getElementById("player-audio-com");
 
     playButton = document.getElementById("play-button");
     volButton = document.getElementById("vol-button");
@@ -42,7 +57,17 @@ function initializeWebPlayer() {
     volSlider = document.getElementById("volume-slider");
     audioSlider = document.getElementById("audio-slider");
 
-    webPlayer.controls = false;
+    isFullScreened = false;
+    isAudioMuted = false;
+
+    vol = 1;
+    vidVol = 1;
+    audioVol = 1;
+
+    videoPlayer.controls = false;
+
+    audioPlayers = [audioPlayerGame, audioPlayerMus, audioPlayerCom];
+    //get number of audio sources and initialize them all
 }
 
 function videoHoverIn() {
@@ -58,41 +83,41 @@ function videoHoverOut() {
     }
 }
 
-function togglePlayPause() { 
-    if (webPlayer.paused) { //play
-        webPlayer.play();
+function togglePlayPause() {
+    if (videoPlayer.paused) { //play
+        videoPlayer.play();
         playButtonImg.src = "Graphics/pause.png";
         playButton.title = "Pause";
 
         if(!isAudioMuted)
             audioPlayer.play();
     }
-    else { //pause 
-        webPlayer.pause(); 
+    else { //pause
+        videoPlayer.pause();
         playButtonImg.src = "Graphics/play.png";
         playButton.title = "Play";
 
         audioPlayer.pause();
     }
-} 
+}
 
 function toggleMute() {
-    if (webPlayer.muted) { //unmute
+    if (videoPlayer.muted) { //unmute
 
-        webPlayer.muted = false;
-        webPlayer.volume = vol;
-        volButton.title = "Mute";
+        videoPlayer.muted = false;
+        videoPlayer.volume = vol;
+        volButton.title = "Master Volume";
         volButtonImg.src = "Graphics/vol.png";
 
         //syncs audio
-        if (!webPlayer.paused){
-            audioPlayer.currentTime = webPlayer.currentTime;
+        if (!videoPlayer.paused){
+            audioPlayer.currentTime = videoPlayer.currentTime;
             audioPlayer.play();
         }
     }
     else { //mute
-        webPlayer.muted = true;
-        webPlayer.volume = 0;
+        videoPlayer.muted = true;
+        videoPlayer.volume = 0;
         volButton.title = "Unmute";
         volButtonImg.src = "Graphics/muted.png";
 
@@ -101,21 +126,14 @@ function toggleMute() {
     }
 }
 
-function volSliderIn() { //TODO: pls fix jar
-    //volSlider.style.visbility = 'visible';
-}
-function volSliderOut() {
-    //volSlider.style.visibility = 'hidden';
-}
-
-function changeVol() {
-    webPlayer.muted = false;
+function changeMasterVol() {
+    videoPlayer.muted = false;
     vol = volSlider.value / 100;
     webPlayer.volume = vol;
     if (vol == 0)
         volButtonImg.src = "Graphics/muted.png";
     else
-        volButtonImg.src = "Graphics/vol.png"; 
+        volButtonImg.src = "Graphics/vol.png";
 }
 
 function changeAudVol() {
@@ -125,12 +143,12 @@ function changeAudVol() {
 }
 
 function toggleAudio() {
-    if (isAudioMuted && !webPlayer.paused) { //unmute
-        audioPlayer.currentTime = webPlayer.currentTime;
+    if (isAudioMuted && !videoPlayer.paused) { //unmute
+        audioPlayer.currentTime = videoPlayer.currentTime;
         audioPlayer.muted = false;
         audioPlayer.play();
         isAudioMuted = false;
-    } 
+    }
     else { //mute
         audioPlayer.paused = true;
         audioPlayer.muted = true;
@@ -140,7 +158,7 @@ function toggleAudio() {
 
 function displayAudioSources() {
     var audioSources = document.getElementsByClassName("dropdown-content");
-    if(audioSources[0].style.display == "none"){ //show
+    if (audioSources[0].style.display == "none"){ //show
         for (var i = 0; i < audioSources.length; i++){
             audioSources[i].style.display = "block";
         }
@@ -151,33 +169,39 @@ function displayAudioSources() {
         }
     }
 }
+function setAudioSource(audioSource) {
+    curSource = document.getElementById(audioSource);
+
+    audioSourceButtonImg.src = currSource.src;
+    audioSource.slider = currSource.slider;
+}
 
 function toggleFullscreen() {
 
     if (isFullScreened) { //minimize
-        webPlayer.webkitExitFullScreen();
+        videoPlayer.webkitExitFullScreen();
         fullscreenButton.title = "Fullscreen";
         fullscreenButtonImg.src = "Graphics/fs.png";
         isFullScreened = false;
     }
     else { //fullscreen
-        if (webPlayer.requestFullscreen) {
-            webPlayer.enterFullscreen();
+        if (videoPlayer.requestFullscreen) {
+            videoPlayer.enterFullscreen();
             fullscreenButton.title = "Minimize"
             fullscreenButtonImg.src = "Graphics/min.png";
             isFullScreened = true;
-        } else if (webPlayer.msRequestFullscreen) {
-            webPlayer.msRequestFullscreen();
+        } else if (videoPlayer.msRequestFullscreen) {
+            videoPlayer.msRequestFullscreen();
             fullscreenButton.title = "Minimize"
             fullscreenButtonImg.src = "Graphics/min.png";
             isFullScreened = true;
-        } else if (webPlayer.mozRequestFullScreen) {
-            webPlayer.mozRequestFullScreen();
+        } else if (videoPlayer.mozRequestFullScreen) {
+            videoPlayer.mozRequestFullScreen();
             fullscreenButton.title = "Minimize"
             fullscreenButtonImg.src = "Graphics/min.png";
             isFullScreened = true;
-        } else if (webPlayer.webkitRequestFullscreen) {
-            webPlayer.webkitRequestFullscreen();
+        } else if (videoPlayer.webkitRequestFullscreen) {
+            videoPlayer.webkitRequestFullscreen();
             fullscreenButton.title = "Minimize"
             //fullscreenButtonImg.src = "Graphics/min.png";
             isFullScreened = true;
