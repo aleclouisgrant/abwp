@@ -5,69 +5,84 @@ document.addEventListener("DOMContentLoaded", initializeWebPlayer(), false);
 //new Audio("ding.mp3").play();
 
 var videoPlayer;
-var audioGamePlayer;
-var audioMusPlayer;
-var audioComPlayer;
 
-var playButton;
-var volButton;
-var audioButton;
-var gameButton;
-var musButton;
-var comButton;
-var fullscreenButton;
+var playButton; //play/pause button
+var volButton; //master volume button
+var audioButton; //audio tracks button
+var fullscreenButton; //fullscreen button
 
-var playButtonImg;
-var volButtonImg;
-var audioButtonImg;
-var fullscreenButtonImg;
+var playButtonImg; //play/pause button's img src
+var volButtonImg; //volume button's img src
+var fullscreenButtonImg; //fullscreen button's img src
 
-var volSlider;
-var audioSlider;
-var gameSlider;
-var musSlider;
-var comSlider;
+var volSlider; //slider that controls master volume
 
-var isFullScreened;
-var isAudioMuted;
+var isFullScreened; //whether the player is fullscreened or not
+var isAudioMuted; //whether the player's master volume is muted or not
 
-var vol;
-var audioVol;
-var gameVol;
-var musVol;
-var comVol;
+var vol; //the value of the master volume [0-1]
 
-var audioPlayers;
+var audioTracks; //array of all available audio tracks
+var gamTrack; //game audio track
+var musTrack; //music audio track
+var comTrack; //commentary audio track
+
+function Track(audio, button, img, slider, volume, muted){
+    this.audio = audio; //the audio tag it corresponds to in html
+    this.button = button; //the button that toggles mute
+    this.img = img; //the img source of the button
+    this.slider = slider; //the slider that controls volume
+    this.volume = volume; //the volume of the audio track
+    this.muted = muted; //whether the track is muted or not
+}
 
 function initializeWebPlayer() {
+
     videoPlayer = document.getElementById("player-video");
-    audioPlayerGame = document.getElementById("player-audio-game");
-    audioPlayerMus = document.getElementById("player-audio-mus");
-    audioPlayerCom = document.getElementById("player-audio-com");
+
+    gamTrack = new Track( //game audio track
+        document.getElementById("audio-source-gam"), //audio
+        document.getElementById("audio-button-gam"), //button
+        document.getElementById("audio-img-gam"), //img
+        document.getElementById("audio-slider-gam"), //slider
+        document.getElementById("audio-volume-gam"), //volume
+        false, //muted
+    );
+    musTrack = new Track( //music audio track
+        document.getElementById("audio-source-mus"), //audio
+        document.getElementById("audio-button-mus"), //button
+        document.getElementById("audio-img-mus"), //img
+        document.getElementById("audio-slider-mus"), //slider
+        document.getElementById("audio-volume-mus"), //volume
+        false, //muted
+    );
+    comTrack = new Track( //commentary audio track
+        document.getElementById("audio-source-com"), //audio
+        document.getElementById("audio-button-com"), //button
+        document.getElementById("audio-img-com"), //img
+        document.getElementById("audio-slider-com"), //slider
+        document.getElementById("audio-volume-com"), //volume
+        false, //muted
+    );
+
+    audioTracks = [gamTrack, musTrack, comTrack];
 
     playButton = document.getElementById("play-button");
-    volButton = document.getElementById("vol-button");
-    audioSourceButton = document.getElementById("audio-source-button");
-    fullscreenButton = document.getElementById("fullscreen-button");
-
     playButtonImg = document.getElementById("play-button-img");
-    volButtonImg = document.getElementById("vol-button-img");
-    fullscreenButtonImg = document.getElementById("fullscreen-button-img");
 
+    volButton = document.getElementById("vol-button");
+    volButtonImg = document.getElementById("vol-button-img");
     volSlider = document.getElementById("volume-slider");
-    audioSlider = document.getElementById("audio-slider");
+
+    audioSourceButton = document.getElementById("audio-source-button");
+
+    fullscreenButton = document.getElementById("fullscreen-button");
+    fullscreenButtonImg = document.getElementById("fullscreen-button-img");
 
     isFullScreened = false;
     isAudioMuted = false;
-
     vol = 1;
-    vidVol = 1;
-    audioVol = 1;
-
-    videoPlayer.controls = false;
-
-    audioPlayers = [audioPlayerGame, audioPlayerMus, audioPlayerCom];
-    //get number of audio sources and initialize them all
+    videoPlayer.controls = false; //if JS supported, turn off default controls
 }
 
 function videoHoverIn() {
@@ -89,71 +104,87 @@ function togglePlayPause() {
         playButtonImg.src = "Graphics/pause.png";
         playButton.title = "Pause";
 
-        if(!isAudioMuted)
-            audioPlayer.play();
+        if(!isAudioMuted){
+            for(var i = 0; i < audioTracks.length; i++){
+                audioTracks[i].audio.play();
+            }
+        }
     }
     else { //pause
         videoPlayer.pause();
         playButtonImg.src = "Graphics/play.png";
         playButton.title = "Play";
 
-        audioPlayer.pause();
+        for(var i = 0; i < audioTracks.length; i++){
+            audioTracks[i].audio.pause();
+        }
     }
 }
 
-function toggleMute() {
-    if (videoPlayer.muted) { //unmute
-
+function toggleMasterMute(){
+    if (videoPlayer.muted) { //ummute
         videoPlayer.muted = false;
-        videoPlayer.volume = vol;
+        isAudioMuted = false;
+
         volButton.title = "Master Volume";
         volButtonImg.src = "Graphics/vol.png";
 
-        //syncs audio
-        if (!videoPlayer.paused){
-            audioPlayer.currentTime = videoPlayer.currentTime;
-            audioPlayer.play();
+        //TODO audio tracks not unmuting
+        //syncs audio with video
+        if (!videoPlayer.paused) {
+            for (var i = 0; i < audioTracks.length; i++){
+                audioTracks[i].audio.volume = audioTracks[i].volume;
+                audioTracks[i].audio.currentTime = videoPlayer.currentTime;
+                audioTracks[i].audio.play();
+            }
         }
     }
     else { //mute
         videoPlayer.muted = true;
-        videoPlayer.volume = 0;
+        isAudioMuted = true;
         volButton.title = "Unmute";
         volButtonImg.src = "Graphics/muted.png";
 
-        //pause audio
-        audioPlayer.paused = true;
+        //mute all audio tracks
+        for (var i = 0; i < audioTracks.length; i++){
+            audioTracks[i].audio.pause();
+        }
     }
 }
-
 function changeMasterVol() {
     videoPlayer.muted = false;
+    isAudioMuted = false;
     vol = volSlider.value / 100;
-    webPlayer.volume = vol;
+    videoPlayer.volume = vol;
     if (vol == 0)
         volButtonImg.src = "Graphics/muted.png";
     else
         volButtonImg.src = "Graphics/vol.png";
+
+    //TODO: how should changing other audio tracks volume work?
 }
 
-function changeAudVol() {
-    audioPlayer.paused = false;
-    audioVol = audioSlider.value / 100;
-    audioPlayer.volume = audioVol;
+function toggleMute(audioTrack) {
+    if (!videoPlayer.muted) {
+        if (audioTrack.audio.paused) { //unmute
+            audioTrack.muted = false;
+            //syncs audio
+            if (!videoPlayer.paused){
+                audioTrack.audio.currentTime = videoPlayer.currentTime;
+                audioTrack.audio.play();
+            }
+        }
+        else { //mute
+            audioTrack.muted = true;
+            audioTrack.audio.pause();
+        }
+    }
 }
-
-function toggleAudio() {
-    if (isAudioMuted && !videoPlayer.paused) { //unmute
-        audioPlayer.currentTime = videoPlayer.currentTime;
-        audioPlayer.muted = false;
-        audioPlayer.play();
-        isAudioMuted = false;
-    }
-    else { //mute
-        audioPlayer.paused = true;
-        audioPlayer.muted = true;
-        isAudioMuted = true;
-    }
+function changeAudVol(audioTrack) {
+    audioTrack.muted = false;
+    audioTrack.volume = audioTrack.slider.value / 100;
+    audioTrack.audio.volume = audioTrack.volume;
+    audioTrack.audio.paused = false;
 }
 
 function displayAudioSources() {
@@ -169,14 +200,9 @@ function displayAudioSources() {
         }
     }
 }
-function setAudioSource(audioSource) {
-    curSource = document.getElementById(audioSource);
-
-    audioSourceButtonImg.src = currSource.src;
-    audioSource.slider = currSource.slider;
-}
 
 function toggleFullscreen() {
+    //TODO: hide cursor, hide controls after X seconds
 
     if (isFullScreened) { //minimize
         videoPlayer.webkitExitFullScreen();
@@ -208,4 +234,3 @@ function toggleFullscreen() {
         }
     }
 }
-

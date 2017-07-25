@@ -16,13 +16,13 @@
         Your browser does not support HTML5 video.
     </video>
 
-    <audio id="player-audio-game">
+    <audio id="audio-source-gam">
         <source src="test1.mp3" type="audio/mpeg">
     </audio>
-    <audio id="player-audio-mus">
+    <audio id="audio-source-mus">
         <source src="test2.mp3" type="audio/mpeg">
     </audio>
-    <audio id="player-audio-com">
+    <audio id="audio-source-com">
         <source src="test3.mp3" type="audio/mpeg">
     </audio>
 
@@ -34,12 +34,12 @@
             <img id="play-button-img" src="Graphics/play.png" width=20 />
         </button>
         <button id="vol-button" title="Master Volume"
-            onclick="toggleMute()">
+            onclick="toggleMasterMute()">
             <img id="vol-button-img" src="Graphics/vol.png" width=20 />
         </button>
         <input type="range" id="volume-slider" min="0" max="100" step="1"
             value="100"
-            oninput="changeVol()">
+            oninput="changeMasterVol()">
 
         <button class="dropdown" id="audio-source-button" title="Audio Sources"
             onclick="displayAudioSources()">
@@ -48,39 +48,36 @@
 
         <div class="dropdown-content">
             <div>
-            <button id="audio-source-bgm" title="BGM Audio"
-                onclick="toggleAudio()">
-                <img src="Graphics/controller.png" width=20 />
+            <button id="audio-button-gam" title="BGM Audio"
+                onclick="toggleMute(gamTrack)">
+                <img id="audio-img-gam" src="Graphics/controller.png" 
+                    width=20 />
             </button>
-            <input type="range" id="audio-slider" min="0" max="100" step="1"
-                value="100"
-                oninput="changeAudVol()">
+            <input type="range" id="audio-slider-gam" min="0" max="100"
+                step="1" value="100"
+                oninput="changeAudVol(gamTrack)">
             </div>
 
             <div>
-            <button id="audio-source-mus" title="Music"
-                onclick="toggleAudio()">
-                <img src="Graphics/audiosrc.png" width=20 />
+            <button id="audio-button-mus" title="Music"
+                onclick="toggleMute(musTrack)">
+                <img id="audio-img-mus" src="Graphics/audiosrc.png" width=20 />
             </button>
-            <input type="range" id="audio-slider" min="0" max="100" step="1"
-                value="100"
-                oninput="changeAudVol(vol)">
+            <input type="range" id="audio-slider-mus" min="0" max="100" 
+                step="1" value="100"
+                oninput="changeAudVol(musTrack)">
             </div>
 
             <div>
-            <button id="audio-source-com" title="Commentary"
-                onclick="toggleAudio()">
-                <img src="Graphics/mic.png" width=20 />
+            <button id="audio-button-com" title="Commentary"
+                onclick="toggleMute(comTrack)">
+                <img id="audio-img-com" src="Graphics/mic.png" width=20 />
             </button>
-            <input type="range" id="audio-slider" min="0" max="100" step="1"
-                value="100"
-                oninput="changeAudVol()">
+            <input type="range" id="audio-slider-com" min="0" max="100"
+                step="1" value="100"
+                oninput="changeAudVol(comTrack)">
             </div>
         </div>
-
-        <input type="range" id="audio-slider" min="0" max="100" step="1"
-            value="100"
-            oninput="changeAudVol()">
 
         <button id="fullscreen-button" title="Fullscreen"
             onclick="toggleFullscreen()">
