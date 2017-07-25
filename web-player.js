@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", initializeWebPlayer(), false);
 
-// if you want to test if a function is being called, you can
-// put this line somewhere in the function:
 //new Audio("ding.mp3").play();
 
 var videoPlayer;
@@ -22,12 +20,12 @@ var isAudioMuted; //whether the player's master volume is muted or not
 
 var vol; //the value of the master volume [0-1]
 
-var audioTracks; //array of all available audio tracks
+var audioArray; //array of all available audio tracks
 var gamTrack; //game audio track
 var musTrack; //music audio track
 var comTrack; //commentary audio track
 
-function Track(audio, button, img, slider, volume, muted){
+function Track(audio, button, img, slider, volume, muted) {
     this.audio = audio; //the audio tag it corresponds to in html
     this.button = button; //the button that toggles mute
     this.img = img; //the img source of the button
@@ -65,7 +63,7 @@ function initializeWebPlayer() {
         false, //muted
     );
 
-    audioTracks = [gamTrack, musTrack, comTrack];
+    audioArray = [gamTrack, musTrack, comTrack];
 
     playButton = document.getElementById("play-button");
     playButtonImg = document.getElementById("play-button-img");
@@ -104,24 +102,25 @@ function togglePlayPause() {
         playButtonImg.src = "Graphics/pause.png";
         playButton.title = "Pause";
 
-        if(!isAudioMuted){
-            for(var i = 0; i < audioTracks.length; i++){
-                audioTracks[i].audio.play();
+        if (!isAudioMuted) {
+            for(var i = 0; i < audioArray.length; i++) {
+                if (!audioArray[i].muted) {
+                    audioArray[i].audio.play();
+                }
             }
         }
-    }
-    else { //pause
+    } else { //pause
         videoPlayer.pause();
         playButtonImg.src = "Graphics/play.png";
         playButton.title = "Play";
 
-        for(var i = 0; i < audioTracks.length; i++){
-            audioTracks[i].audio.pause();
+        for (var i = 0; i < audioArray.length; i++) {
+            audioArray[i].audio.pause();
         }
     }
 }
 
-function toggleMasterMute(){
+function toggleMasterMute() {
     if (videoPlayer.muted) { //ummute
         videoPlayer.muted = false;
         isAudioMuted = false;
@@ -129,25 +128,26 @@ function toggleMasterMute(){
         volButton.title = "Master Volume";
         volButtonImg.src = "Graphics/vol.png";
 
-        //TODO audio tracks not unmuting
         //syncs audio with video
         if (!videoPlayer.paused) {
-            for (var i = 0; i < audioTracks.length; i++){
-                audioTracks[i].audio.volume = audioTracks[i].volume;
-                audioTracks[i].audio.currentTime = videoPlayer.currentTime;
-                audioTracks[i].audio.play();
+            for (var i = 0; i < audioArray.length; i++) {
+                if (!audioArray[i].muted) {
+                    //TODO: why doesnt this line work?
+                    //audioArray[i].audio.volume = audioArray[i].volume;
+                    audioArray[i].audio.currentTime = videoPlayer.currentTime;
+                    audioArray[i].audio.play();
+                }
             }
         }
-    }
-    else { //mute
+    } else { //mute
         videoPlayer.muted = true;
         isAudioMuted = true;
         volButton.title = "Unmute";
         volButtonImg.src = "Graphics/muted.png";
 
         //mute all audio tracks
-        for (var i = 0; i < audioTracks.length; i++){
-            audioTracks[i].audio.pause();
+        for (var i = 0; i < audioArray.length; i++) {
+            audioArray[i].audio.pause();
         }
     }
 }
@@ -156,10 +156,11 @@ function changeMasterVol() {
     isAudioMuted = false;
     vol = volSlider.value / 100;
     videoPlayer.volume = vol;
-    if (vol == 0)
+    if (vol == 0) {
         volButtonImg.src = "Graphics/muted.png";
-    else
+    } else {
         volButtonImg.src = "Graphics/vol.png";
+    }
 
     //TODO: how should changing other audio tracks volume work?
 }
@@ -169,12 +170,11 @@ function toggleMute(audioTrack) {
         if (audioTrack.audio.paused) { //unmute
             audioTrack.muted = false;
             //syncs audio
-            if (!videoPlayer.paused){
+            if (!videoPlayer.paused) {
                 audioTrack.audio.currentTime = videoPlayer.currentTime;
                 audioTrack.audio.play();
             }
-        }
-        else { //mute
+        } else { //mute
             audioTrack.muted = true;
             audioTrack.audio.pause();
         }
@@ -189,13 +189,12 @@ function changeAudVol(audioTrack) {
 
 function displayAudioSources() {
     var audioSources = document.getElementsByClassName("dropdown-content");
-    if (audioSources[0].style.display == "none"){ //show
-        for (var i = 0; i < audioSources.length; i++){
+    if (audioSources[0].style.display == "none") { //show
+        for (var i = 0; i < audioSources.length; i++) {
             audioSources[i].style.display = "block";
         }
-    }
-    else { //hide
-        for (var i = 0; i < audioSources.length; i++){
+    } else { //hide
+        for (var i = 0; i < audioSources.length; i++) {
             audioSources[i].style.display = "none";
         }
     }
@@ -209,15 +208,14 @@ function toggleFullscreen() {
         fullscreenButton.title = "Fullscreen";
         fullscreenButtonImg.src = "Graphics/fs.png";
         isFullScreened = false;
-    }
-    else { //fullscreen
+    } else { //fullscreen
         if (videoPlayer.requestFullscreen) {
             videoPlayer.enterFullscreen();
             fullscreenButton.title = "Minimize"
             fullscreenButtonImg.src = "Graphics/min.png";
             isFullScreened = true;
         } else if (videoPlayer.msRequestFullscreen) {
-            videoPlayer.msRequestFullscreen();
+            videoPlayer.msRequesTFullscreen();
             fullscreenButton.title = "Minimize"
             fullscreenButtonImg.src = "Graphics/min.png";
             isFullScreened = true;
