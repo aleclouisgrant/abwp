@@ -46,11 +46,11 @@
             <img id="audio-src-img" src="Graphics/audiosrc.png" width=20 />
         </button>
 
-        <div class="dropdown-content">
+        <div class="dropdown-content" style="display: none;">
             <div>
             <button id="audio-button-gam" title="BGM Audio"
                 onclick="toggleMute(gamTrack)">
-                <img id="audio-img-gam" src="Graphics/controller.png" 
+                <img id="audio-img-gam" src="Graphics/controller.png"
                     width=20 />
             </button>
             <input type="range" id="audio-slider-gam" min="0" max="100"
@@ -63,7 +63,7 @@
                 onclick="toggleMute(musTrack)">
                 <img id="audio-img-mus" src="Graphics/audiosrc.png" width=20 />
             </button>
-            <input type="range" id="audio-slider-mus" min="0" max="100" 
+            <input type="range" id="audio-slider-mus" min="0" max="100"
                 step="1" value="100"
                 oninput="changeAudVol(musTrack)">
             </div>

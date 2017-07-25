@@ -202,6 +202,9 @@ function displayAudioSources() {
 
 function toggleFullscreen() {
     //TODO: hide cursor, hide controls after X seconds
+    //maybe use onmousemove in html?
+    //or a document.addEventListener(mousemove, script) here?
+    //for the wait, use setTimeout(code, time)? 3 secs = 3000
 
     if (isFullScreened) { //minimize
         videoPlayer.webkitExitFullScreen();

@@ -24,14 +24,13 @@ button {
     position: absolute;
 
     background: #2d2d2d;
-    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8));
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8));
 
     z-index: 2147483647;
 }
 
-#volume-slider {
-    margin-top: 20px;
-    margin-right: 52%;
+#fullscreen-button {
+    margin-right: 50%;
 }
 
 input[type=range] {
@@ -70,6 +69,7 @@ video::-webkit-media-controls {
     display: none;
     position: absolute;
     bottom: 100%;
-    margin-left: 65%;
+    margin-left: 6%;
+    background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3));
 }
 

@@ -1,0 +1,26 @@
+What's left to do in the project:
+
+-add a README.md
+
+-------------------------
+### webplayer ###
+-how should the master volume bar control the individual tracks?
+-add options button
+-why isnt the fullscreen button moving over? even though margin-right is set
+-different colors before:after slider track
+-dropup menu needs to resize properly
+-dropup menu could be tweaked to be a bit nicer
+-controls bar resizing could be tweaked
+-thicker controls bar
+-icons tweak
+-------------------------
+-------------------------
+### nginx rtmp server ###
+-set up external ssh 
+-reroute media to webplayer's html5 audio tags
+-------------------------
+-------------------------
+### obs plugin ###
+-pipe individual audio layers into the rtmp server
+-------------------------
+
