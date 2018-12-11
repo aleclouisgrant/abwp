@@ -16,7 +16,6 @@ What's left to do in the project:
 -------------------------
 -------------------------
 ### nginx rtmp server ###
--set up external ssh 
 -reroute media to webplayer's html5 audio tags
 -------------------------
 -------------------------
